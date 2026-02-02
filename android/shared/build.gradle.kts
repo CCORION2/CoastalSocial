@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.21"
 }
 
+@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
     androidTarget {
         compilations.all {
@@ -32,6 +33,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.ui)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 
                 // Ktor for networking
