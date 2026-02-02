@@ -200,3 +200,4 @@ const val BASE_URL = "http://DEINE_IP:3000/api/"
 ## Lizenz
 
 MIT License
+# CoastalSocial
