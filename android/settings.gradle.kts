@@ -7,7 +7,8 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    // Note: repositoriesMode is not set because Kotlin/Native compiler 
+    // needs to add an ivy repository for downloading the native compiler
     repositories {
         google()
         mavenCentral()
