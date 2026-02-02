@@ -39,7 +39,7 @@ jobs:
         working-directory: ./android
         run: |
           chmod +x gradlew
-          ./gradlew :shared:assembleXCFramework --no-daemon
+          ./gradlew :shared:assembleSharedXCFramework --no-daemon
 
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
