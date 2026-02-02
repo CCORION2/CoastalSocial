@@ -54,13 +54,6 @@ kotlin {
                 
                 // DateTime
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
-                
-                // ViewModel
-                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0")
-                implementation("cafe.adriel.voyager:voyager-screenmodel:1.0.0")
-                
-                // Image loading
-                implementation("io.kamel:kamel-image:0.9.1")
             }
         }
         
