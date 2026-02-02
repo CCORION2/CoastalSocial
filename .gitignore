@@ -1,0 +1,40 @@
+# Android
+android/.gradle/
+android/.idea/
+android/app/build/
+android/build/
+android/shared/build/
+android/local.properties
+*.iml
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# iOS
+iosApp/build/
+iosApp/DerivedData/
+iosApp/*.xcworkspace
+iosApp/Pods/
+*.ipa
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node.js
+backend/node_modules/
+backend/.env
+backend/uploads/posts/*
+backend/uploads/profiles/*
+backend/uploads/covers/*
+!backend/uploads/posts/.gitkeep
+!backend/uploads/profiles/.gitkeep
+!backend/uploads/covers/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db

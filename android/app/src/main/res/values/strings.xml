@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CoastalSocial</string>
+    
+    <!-- Auth -->
+    <string name="login">Anmelden</string>
+    <string name="register">Registrieren</string>
+    <string name="logout">Abmelden</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="username">Benutzername</string>
+    <string name="full_name">Vollständiger Name</string>
+    <string name="forgot_password">Passwort vergessen?</string>
+    <string name="no_account">Noch kein Konto?</string>
+    <string name="already_have_account">Bereits ein Konto?</string>
+    
+    <!-- Navigation -->
+    <string name="feed">Feed</string>
+    <string name="search">Suchen</string>
+    <string name="create_post">Beitrag erstellen</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="messages">Nachrichten</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Einstellungen</string>
+    <string name="friends">Freunde</string>
+    <string name="friend_requests">Freundschaftsanfragen</string>
+    
+    <!-- Posts -->
+    <string name="whats_on_your_mind">Was beschäftigt dich?</string>
+    <string name="post">Posten</string>
+    <string name="like">Gefällt mir</string>
+    <string name="comment">Kommentieren</string>
+    <string name="share">Teilen</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="write_comment">Kommentar schreiben...</string>
+    <string name="comments">Kommentare</string>
+    <string name="likes">Gefällt mir</string>
+    
+    <!-- Profile -->
+    <string name="edit_profile">Profil bearbeiten</string>
+    <string name="posts">Beiträge</string>
+    <string name="followers">Follower</string>
+    <string name="following">Folge ich</string>
+    <string name="bio">Über mich</string>
+    <string name="website">Website</string>
+    <string name="location">Standort</string>
+    <string name="add_friend">Als Freund hinzufügen</string>
+    <string name="remove_friend">Freund entfernen</string>
+    <string name="pending_request">Anfrage ausstehend</string>
+    <string name="accept">Annehmen</string>
+    <string name="decline">Ablehnen</string>
+    
+    <!-- Messages -->
+    <string name="new_message">Neue Nachricht</string>
+    <string name="type_message">Nachricht eingeben...</string>
+    <string name="send">Senden</string>
+    <string name="no_messages">Keine Nachrichten</string>
+    <string name="start_conversation">Starte eine Unterhaltung</string>
+    
+    <!-- Errors -->
+    <string name="error">Fehler</string>
+    <string name="error_network">Netzwerkfehler. Bitte überprüfe deine Verbindung.</string>
+    <string name="error_login">Anmeldung fehlgeschlagen</string>
+    <string name="error_register">Registrierung fehlgeschlagen</string>
+    <string name="error_load">Laden fehlgeschlagen</string>
+    <string name="error_post">Beitrag konnte nicht erstellt werden</string>
+    <string name="error_empty_fields">Bitte fülle alle Felder aus</string>
+    <string name="error_password_mismatch">Passwörter stimmen nicht überein</string>
+    
+    <!-- General -->
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="loading">Laden...</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="back">Zurück</string>
+    <string name="more">Mehr</string>
+    
+    <!-- Time -->
+    <string name="just_now">Gerade eben</string>
+    <string name="minutes_ago">vor %d Minuten</string>
+    <string name="hours_ago">vor %d Stunden</string>
+    <string name="days_ago">vor %d Tagen</string>
+    <string name="weeks_ago">vor %d Wochen</string>
+</resources>
