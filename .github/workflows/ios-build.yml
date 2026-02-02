@@ -1,0 +1,142 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Manueller Start möglich
+
+jobs:
+  build-ios:
+    name: Build iOS App
+    runs-on: macos-14  # M1 Mac (schneller)
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build Kotlin Shared Framework
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:assembleXCFramework --no-daemon
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+      - name: Build iOS App
+        working-directory: ./iosApp
+        run: |
+          xcodebuild -project iosApp.xcodeproj \
+            -scheme iosApp \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: iosApp/build/
+          retention-days: 7
+
+  # Optional: Release-Build mit Signierung
+  build-ios-release:
+    name: Build iOS Release (Signed)
+    runs-on: macos-14
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build-ios
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build Kotlin Shared Framework
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:assembleReleaseXCFramework --no-daemon
+
+      - name: Install Apple Certificate
+        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # Zertifikat aus Secret erstellen
+          echo $APPLE_CERTIFICATE | base64 --decode > certificate.p12
+          
+          # Temporäre Keychain erstellen
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          
+          # Zertifikat importieren
+          security import certificate.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+      - name: Install Provisioning Profile
+        if: ${{ secrets.PROVISIONING_PROFILE != '' }}
+        env:
+          PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo $PROVISIONING_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
+
+      - name: Build Release IPA
+        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        working-directory: ./iosApp
+        run: |
+          xcodebuild -project iosApp.xcodeproj \
+            -scheme iosApp \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath build/iosApp.xcarchive \
+            archive
+
+          xcodebuild -exportArchive \
+            -archivePath build/iosApp.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath build/
+
+      - name: Upload IPA
+        if: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-ipa
+          path: iosApp/build/*.ipa
+          retention-days: 30
