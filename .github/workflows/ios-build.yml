@@ -52,14 +52,23 @@ jobs:
             -sdk iphonesimulator \
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -derivedDataPath build \
             clean build \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Find and Package App
+        run: |
+          APP_PATH=$(find iosApp/build -name "*.app" -type d | head -1)
+          echo "Found app at: $APP_PATH"
+          mkdir -p artifacts
+          cp -R "$APP_PATH" artifacts/
+          ls -la artifacts/
+
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ios-build
-          path: iosApp/build/
-          retention-days: 7
+          name: ios-app
+          path: artifacts/
+          retention-days: 30
