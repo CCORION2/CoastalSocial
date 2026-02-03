@@ -372,11 +372,19 @@ struct SearchView: View {
         NavigationView {
             VStack {
                 if searchResults.isEmpty {
-                    ContentUnavailableView(
-                        "Suche nach Benutzern",
-                        systemImage: "magnifyingglass",
-                        description: Text("Finde Freunde und neue Leute")
-                    )
+                    VStack(spacing: 16) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 60))
+                            .foregroundColor(.gray)
+                        Text("Suche nach Benutzern")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        Text("Finde Freunde und neue Leute")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding()
                 } else {
                     List(searchResults) { user in
                         UserRow(user: user)
