@@ -419,11 +419,19 @@ struct UserRow: View {
 struct NotificationsView: View {
     var body: some View {
         NavigationView {
-            ContentUnavailableView(
-                "Keine Mitteilungen",
-                systemImage: "bell.slash",
-                description: Text("Du hast keine neuen Benachrichtigungen")
-            )
+            VStack(spacing: 16) {
+                Image(systemName: "bell.slash")
+                    .font(.system(size: 60))
+                    .foregroundColor(.gray)
+                Text("Keine Mitteilungen")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Text("Du hast keine neuen Benachrichtigungen")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
             .navigationTitle("Mitteilungen")
         }
     }
